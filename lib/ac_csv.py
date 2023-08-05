@@ -33,25 +33,25 @@ def main(args, loglevel):
     # For each new vocab word, create a new CSV row entry that contains:
     # - Chinese phrase
     # - English meaning
-    # - Image tag of zhuyin for the phrase
-    # - Image tag(s) for the stroke order for the characters in the phrase
+    # - Zhuyin for the phrase
     # - For each unique character in the phrase:
     #   - Chinese character
-    #   - Image tag of zhuyin
+    #   - Zhuyin
+    #   - Stroke order
     for phrase, meaning in vocab.items():
         row = [phrase, meaning]
+        row.append(get_zhuyin(phrase))
+        #gen_svg(phrase, update)
+        #gen_png(phrase, update)
+        #row.append(char_tag(phrase))
 
-        gen_svg(phrase, update)
-        gen_png(phrase, update)
-        row.append(char_tag(phrase))
-
-        stroke_tags = gen_stroke(phrase, update)
+        #stroke_tags = gen_stroke(phrase, update)
         # DEBUG START
         # stroke_tages = ""
         # for char in phrase:
         #     stroke_tags = stroke_tags + stroke_tag(char)
         # DEBUG END
-        row.append(stroke_tags)
+        #row.append(stroke_tags)
 
         for char in phrase:
             # Update the running list of known characters if it is not already known
@@ -60,10 +60,12 @@ def main(args, loglevel):
                 # Append the character and zhuyin for each character in the phrase.
                 # Skip phrases that are only 1 character long since it would just be a duplicate.
                 if len(phrase) > 1:
-                    gen_svg(char, update)
-                    gen_png(char, update)
+                    #gen_svg(char, update)
+                    #gen_png(char, update)
                     row.append(char)
-                    row.append(char_tag(char))
+                    #row.append(char_tag(char))
+                    row.append(get_zhuyin(char))
+                    row.append(get_stroke_order(char))
         to_csv.append(row)
         logging.debug(f"Appending: {row}")
 

@@ -4,8 +4,8 @@
 import csv
 import sys
 import yaml
-from svglibcustom.svglibcustom import svg2rlg
-from reportlab.graphics import renderPDF, renderPM
+#from svglibcustom.svglibcustom import svg2rlg
+#from reportlab.graphics import renderPDF, renderPM
 import ssl
 import urllib.request
 import os.path
@@ -77,6 +77,26 @@ def gen_stroke(text, update):
                 logging.warning(f"No big5 encoding for: {char}. Recommendation: manually download an appropriate stroke image, if one exists")
     return stroke_tags
 
+# Returns the character(s) as zhuyin via wiktionary lookup.
+def get_zhuyin(chars):
+    import requests
+    import re
+    from bs4 import BeautifulSoup
+    url = f"https://en.wiktionary.org/wiki/{chars}"
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    audio = soup.select('audio source[data-title=MP3]')
+    print(audio)
+    stroke_url = soup.find_all(src=re.compile("-order.gif"))
+    print(stroke_url)
+    zhuyin = soup.select('.Bopo')[0]
+    print(zhuyin.prettify())
+    print(zhuyin.string)
+    print(gen_stroke(chars, False))
+
+def get_stroke_order(char):
+    return ''
+    
 # Returns True if the character does not yet exist in the characterlist
 def is_new_char(char_list, char):
     return char_list.find(char) == -1
@@ -88,6 +108,7 @@ def char_tag(char):
 # Returns the HTML string Anki expects for stroke images.
 def stroke_tag(char):
     return f"<img src=\"{char}-stroke.png\" />"
+
 
 # Parses yaml containing vocabulary.
 # Expects the following format
