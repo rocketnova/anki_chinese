@@ -6,3 +6,4 @@ lib/__pycache__/
 *.csv
 *.yml
 *.apkg
+*.swp
