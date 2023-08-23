@@ -2,7 +2,7 @@ data/
 archive/
 images/
 lib/svglibcustom/
-lib/__pycache__/
+__pycache__
 *.csv
 *.yml
 *.apkg
