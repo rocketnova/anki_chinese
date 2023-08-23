@@ -17,6 +17,14 @@ RUN python3 -m pip install --user pipx \
 # Install poetry
 RUN /home/pipx/.local/bin/pipx install poetry
 
+# Set workingc directory
+WORKDIR /srv/application
+
+# Install project files
+COPY ./pyproject.toml .
+COPY ./anki_chinese anki_chinese
+RUN /home/pipx/.local/bin/poetry install
+
 USER root
 
 CMD ["cron", "-f"]
