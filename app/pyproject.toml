@@ -21,6 +21,5 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-test = "anki_chinese.test:main"
 csv = "anki_chinese.csv:main"
 
