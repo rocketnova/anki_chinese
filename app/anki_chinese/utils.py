@@ -4,6 +4,7 @@ import yaml
 import csv
 import logging
 import os.path
+import urllib.request
 
 def load_vocab(vocab_file):
     """
@@ -40,6 +41,43 @@ def make_image_dirs(dirs):
         if os.path.isdir(dir) == False:
             os.mkdir(dir)
             logging.debug(f"Created: {dir}")
+
+def get_stroke_tag(char):
+    """
+    Returns the HTML string Anki expects for stroke images.
+    """
+    return f"<img src=\"{char}-stroke.png\" />"
+
+def gen_stroke(phrase, stroke_dir, no_update_images):
+    """
+    Requests the stroke order PNGs from https://stroke-order.learningweb.moe.edu.tw
+    """
+    stroke_tags = ""
+    for char in phrase:
+        stroke_filename = f"{stroke_dir}/{char}-stroke.png"
+        if no_update_images == True and os.path.isfile(stroke_filename) == True:
+            stroke_tags = stroke_tags + get_stroke_tag(char)
+            continue
+        else:
+            try:
+                big5char = char.encode("big5", "strict").hex().upper()
+                logging.debug(big5char)
+                url = f"https://stroke-order.learningweb.moe.edu.tw/words/{big5char}.png"
+                try:
+                    with urllib.request.urlopen(url) as response, open(stroke_filename, 'wb') as file:
+                        # A `bytes` object
+                        data = response.read()
+                        file.write(data)
+                        stroke_tags = stroke_tags + get_stroke_tag(char)
+                        logging.debug(f"Wrote: {stroke_filename}")
+                except urllib.error.HTTPError as error:
+                    # MOE will return 404 for characters that have no stroke image available
+                    # Example: https://stroke-order.learningweb.moe.edu.tw/characterQueryResult.do?word=%E6%BF%95
+                    logging.warning(f"No stroke found for: {char}")
+            except UnicodeEncodeError as error:
+                # Some more archaic or variant characters do not have a big5 encoding
+                logging.warning(f"No big5 encoding for: {char}. Recommendation: manually download an appropriate stroke image, if one exists")
+    return stroke_tags
 
 def is_new_char(char_list, char):
     """
