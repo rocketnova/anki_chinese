@@ -35,6 +35,8 @@ This script generates the following fields:
 - Pinyin 3
 - etc
 
+See `./data/example_import_into_anki.csv` for an example.
+
 Note: The number of pairs of "character" and "zhuyin" fields you need depends on the max length of your phrases. For example, if the longest phrase in your vocabulary list is 7 characters long, add 7 pairs of character/zhuyin fields in Anki.
 
 ## Anki Card Types
@@ -46,7 +48,7 @@ This note type is designed to work with the following card types, but you can, o
 - Character 1 recognition: Character 1 --> Zhuyin
 - Character 2, 3 etc
 
-Import `card_template.apkg` to import these example card types.
+Use `card_template.apkg` to import these example card types.
 
 ## Requirements
 
@@ -64,6 +66,7 @@ To generate a CSV to import into Anki, along with accompanying images:
 <details>
 <summary>Breakdown of the docker command</summary>
 This is a complex docker command. Here's what it's doing:
+
 - `docker compose run`: Runs a [one-time command](https://docs.docker.com/engine/reference/commandline/compose_run/).
 - `--rm`: Removes the container after it exits. This means you don't have to do any cleanup.
 - `app`: The service that docker compose will run. Matches a named service in docker-compose.yml.
@@ -98,12 +101,12 @@ Run `docker compose run --rm app poetry run csv --help` to see the options.
 
 * `--char_file char_file.txt`: Pass in a text file that contains a list of characters that you have already imported into Anki.
     * Note that the docker-compose.yml is configured to bind mount the `./data` directory, so if you want to use this option, put your character file in the data directory and use the flag like so: `--char_file data/char_file.txt`.
-    * For example: `接臺灣歡迎陳華文張這姓叫請問謝不客氣喝茶`.
+    * See `./data/example_char_file.txt` for an example.
     * If a character exists in `char_file.txt`, then Anki Chinese will not generate new single character cards in order to reduce duplicates in Anki.
     * If a character file is NOT provided, Anki Chinese will still prevent duplicates from WITHIN the same vocab file. For example: `臺灣: Taiwan` and `臺北: Taipei` will generate only single characters 3 characters (`臺灣北`), not 4.
     * Anki Chinese will update the character file with any new characters provided in the vocab file. This creates a handy side effect where you can see the total number of unique characters you've studied.
 * `--no-update-chars`: If you use the `--char_file` option, you can use the `--no-update-chars` option to tell Anki Chinese to only read from the character file to prevent duplicates, but Anki Chinese will not update it with any new characters.
-* `--force-update-images`: Using this flag will tell Anki Chinese to not to update any existing images. The default behavior is to NOT generate a new image if a file with the same name already exists).
+* `--force-update-images`: Using this flag will tell Anki Chinese to not to update any existing images. The default behavior is to NOT generate a new image if a file with the same name already exists.
 * `-t, --tags`: All the tags passed in will be applied to each row in the CSV. This means that separating each book or each chapter into a separate yaml file is recommended. You can then pass in "ch1" or "book1" tags for each yaml.
     * Multiple tags can be passed in using this option multiple times. Example: `-t "tag1" -t "tag2" -t "tag3"`
     * Note that Anki cannot support tags that contain spaces.
