@@ -93,7 +93,7 @@ def main(vocab_file, char_file, no_update_chars, no_update_images, tags, verbose
         write_text(char_file, char_list)
 
     # Write the CSV.
-    write_csv(rows, "import_into_anki.csv")
+    write_csv(rows, "data/import_into_anki.csv")
 
     # Print summary.
     logging.info(f"Generated CSV for {len(rows)} vocabulary phrases.")

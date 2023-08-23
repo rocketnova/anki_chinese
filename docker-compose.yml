@@ -2,5 +2,4 @@ services:
   app:
     build: app
     volumes:
-      - ./input:/srv/application/input:r
-      - ./output:/srv/application/output:rw
+      - ./data:/srv/application/data:rw
