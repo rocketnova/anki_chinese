@@ -5,6 +5,7 @@ import csv
 import logging
 import os.path
 import urllib.request
+import urllib.parse
 
 def load_vocab(vocab_file):
     """
@@ -50,7 +51,7 @@ def get_stroke_tag(char):
 
 def gen_stroke(phrase, stroke_dir, no_update_images):
     """
-    Requests the stroke order PNGs from https://stroke-order.learningweb.moe.edu.tw
+    Downloads the stroke order PNGs
     """
     stroke_tags = ""
     for char in phrase:
@@ -59,24 +60,18 @@ def gen_stroke(phrase, stroke_dir, no_update_images):
             stroke_tags = stroke_tags + get_stroke_tag(char)
             continue
         else:
+            escaped_char = urllib.parse.quote(char)
+            url = f"https://raw.githubusercontent.com/rocketnova/anki_chinese/main/stroke-order.learningweb.moe.edu.tw/6057png/{escaped_char}.png"
             try:
-                big5char = char.encode("big5", "strict").hex().upper()
-                logging.debug(big5char)
-                url = f"https://stroke-order.learningweb.moe.edu.tw/words/{big5char}.png"
-                try:
-                    with urllib.request.urlopen(url) as response, open(stroke_filename, 'wb') as file:
-                        # A `bytes` object
-                        data = response.read()
-                        file.write(data)
-                        stroke_tags = stroke_tags + get_stroke_tag(char)
-                        logging.debug(f"Wrote: {stroke_filename}")
-                except urllib.error.HTTPError as error:
-                    # MOE will return 404 for characters that have no stroke image available
-                    # Example: https://stroke-order.learningweb.moe.edu.tw/characterQueryResult.do?word=%E6%BF%95
-                    logging.warning(f"No stroke found for: {char}")
-            except UnicodeEncodeError as error:
-                # Some more archaic or variant characters do not have a big5 encoding
-                logging.warning(f"No big5 encoding for: {char}. Recommendation: manually download an appropriate stroke image, if one exists")
+                with urllib.request.urlopen(url) as response, open(stroke_filename, 'wb') as file:
+                    # A `bytes` object
+                    data = response.read()
+                    file.write(data)
+                    stroke_tags = stroke_tags + get_stroke_tag(char)
+                    logging.debug(f"Wrote: {stroke_filename}")
+            except urllib.error.HTTPError as error:
+                # MOE will return 404 for characters that have no stroke image available
+                logging.warning(f"No stroke found for: {char}")
     return stroke_tags
 
 def is_new_char(char_list, char):
