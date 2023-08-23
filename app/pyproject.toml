@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "anki-chinese"
+version = "0.1.0"
+description = ""
+authors = ["Rocket <rocketnova@users.noreply.github.com>"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/rocketnova/anki_chinese"
+packages = [{include = "anki_chinese"}]
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts]
+hello = "anki_chinese.test:main"
+csv = "anki_chinese.csv:main"
+
