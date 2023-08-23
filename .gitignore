@@ -18,5 +18,5 @@ archive/
 
 # Do track the example files
 !example_char_file.txt
-!example_import_to_anki.csv
+!example_import_into_anki.csv
 !example_vocab_file.yml
