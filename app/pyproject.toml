@@ -12,6 +12,7 @@ packages = [{include = "anki_chinese"}]
 python = "^3.11"
 click = "^8.1.7"
 pyyaml = "^6.0.1"
+dragonmapper = "^0.2.6"
 
 
 [build-system]

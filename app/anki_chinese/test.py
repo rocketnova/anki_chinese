@@ -54,7 +54,8 @@ def main(vocab_file, char_file, no_update_chars, no_update_images, tags, verbose
         row = [phrase, meaning]
 
         # Add zhuyin and pinyin to the row.
-        # ...
+        row.append(get_zhuyin(phrase))
+        row.append(get_pinyin(phrase))
 
         # Add stroke order to the row.
         stroke_tags = gen_stroke(phrase, stroke_dir, no_update_images)
@@ -68,8 +69,9 @@ def main(vocab_file, char_file, no_update_chars, no_update_images, tags, verbose
                 # Add the character, zhuyin, and pinyin to the row.
                 # Skip phrases that are only 1 character long since it would just be a duplicate.
                 if len(phrase) > 1:
-                    # zhuyin, pinyin here
                     row.append(char)
+                    row.append(get_zhuyin(char))
+                    row.append(get_pinyin(char))
 
         # Keep track of the longest vocab phrase.
         # This gets output as a warning when the csv is created.

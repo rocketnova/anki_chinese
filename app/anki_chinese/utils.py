@@ -6,6 +6,7 @@ import logging
 import os.path
 import urllib.request
 import urllib.parse
+from dragonmapper import hanzi
 
 def load_vocab(vocab_file):
     """
@@ -42,6 +43,18 @@ def make_image_dirs(dirs):
         if os.path.isdir(dir) == False:
             os.mkdir(dir)
             logging.debug(f"Created: {dir}")
+
+def get_zhuyin(chars):
+    """
+    Returns the zhuyin for the input.
+    """
+    return hanzi.to_zhuyin(chars)
+
+def get_pinyin(chars):
+    """
+    Returns the pinyin for the input.
+    """
+    return hanzi.to_pinyin(chars)
 
 def get_stroke_tag(char):
     """
