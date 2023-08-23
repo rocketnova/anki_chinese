@@ -1,10 +1,22 @@
-data/
-archive/
-images/
-lib/svglibcustom/
-__pycache__
+# Ignore data files.
 *.csv
 *.yml
-!docker-compose.yml
 *.apkg
+*.png
+*.txt
+
+# Ignore dev and testing files.
+__pycache__/
+archive/
 *.swp
+
+# Do track docker compose yml.
+!docker-compose.yml
+
+# Do track the example .apkg
+!card_template.apkg
+
+# Do track the example files
+!example_char_file.txt
+!example_import_to_anki.csv
+!example_vocab_file.yml
