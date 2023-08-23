@@ -2,47 +2,48 @@
 
 ## Overview
 
-Anki Chinese is a set of scripts that generate `notes` for the [Anki](https://apps.ankiweb.net) flash card program. It is specifically designed for English speakers learning Chinese who wish to learn using Taiwan/ROC zhuyin (注音符號) and Taiwan/ROC stroke order (筆順).
+Anki Chinese is script that generates `notes` for the [Anki](https://apps.ankiweb.net) flash card program. It is specifically designed for English speakers learning Chinese who wish to learn using Taiwan/ROC zhuyin (注音符號) and Taiwan/ROC stroke order (筆順).
 
 Anki Chinese accepts a [vocabulary list in YAML format](#usage) and outputs:
 
 - A CSV for importing into Anki using a specific [Anki note type](#anki-note-type)
-- PNG images of the zhuyin for each phrase
-- PNG images of the zhuyin for each unique character in each phrase (ignores duplicates)
 - PNG images of the Taiwan stroke order
 
 The Taiwan stroke order is downloaded from https://stroke-order.learningweb.moe.edu.tw/character.do.
 
 ## Anki Note Type
 
-Create a note type (named something like "Chinese Vocab") in Anki that has the following fields in order:
+Anki [supports importing comma separated text files](https://docs.ankiweb.net/importing.html). During import, you choose which field in the text file is mapped to which field in an existing note type.
 
-```
-Chinese phrase
-English meaning
-Zhuyin (image)
-Stroke order
-Character 1
-Zhuyin 1  (image)
-Character 2
-Zhuyin 2  (image)
-Character 3
-Zhuyin 3  (image)
-etc
-```
+This script is specifically meant to work with single or multi-character Chinese phrases, such as 雨, 十二月底.
 
-The number of pairs of "character" and "zhuyin" fields you need depends on the max length of your phrases. For example, if the longest phrase in your vocabulary list is 7 characters long, add 7 pairs of character/zhuyin fields in Anki.
+This script generates the following fields:
+
+- Hanzi (Chinese phrase)
+- English meaning
+- Zhuyin
+- Pinyin
+- Stroke order (image)
+- Character 1
+- Zhuyin 1  (image)
+- Character 2
+- Zhuyin 2  (image)
+- Character 3
+- Zhuyin 3  (image)
+- etc
+
+Note: The number of pairs of "character" and "zhuyin" fields you need depends on the max length of your phrases. For example, if the longest phrase in your vocabulary list is 7 characters long, add 7 pairs of character/zhuyin fields in Anki.
 
 ## Anki Card Types
 
-This note type is designed to work with the following card types:
+This note type is designed to work with the following card types, but you can, of course, use the note fields to create whatever card types you want.
 
-- Phrase recognition: Chinese phrase + Zhuyin (hint) --> English meaning
-- Phrase recall: English meaning + Zhuyin (hint)     --> Chinese phrase + stroke order (hint)
-- Character 1 recognition: Character 1               --> Zhuyin
+- Reading recognition: Hanzi + Zhuyin (hint) --> English meaning
+- Recall: English meaning + Zhuyin (hint) --> Hanzi + stroke order (hint)
+- Character 1 recognition: Character 1 --> Zhuyin
 - Character 2, 3 etc
 
-Import `card_template.apkg` to import the example card types.
+Import `card_template.apkg` to import these example card types.
 
 ## Dependencies
 
