@@ -10,6 +10,8 @@ packages = [{include = "anki_chinese"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+click = "^8.1.7"
+pyyaml = "^6.0.1"
 
 
 [build-system]
@@ -18,6 +20,6 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-hello = "anki_chinese.test:main"
+test = "anki_chinese.test:main"
 csv = "anki_chinese.csv:main"
 
