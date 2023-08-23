@@ -19,17 +19,20 @@ This script is specifically meant to work with single or multi-character Chinese
 
 This script generates the following fields:
 
-- Hanzi (Chinese phrase)
+- Chinese phrase
 - English meaning
 - Zhuyin
 - Pinyin
 - Stroke order (image)
 - Character 1
-- Zhuyin 1  (image)
+- Zhuyin 1
+- Pinyin 1
 - Character 2
-- Zhuyin 2  (image)
+- Zhuyin 2
+- Pinyin 2
 - Character 3
-- Zhuyin 3  (image)
+- Zhuyin 3
+- Pinyin 3
 - etc
 
 Note: The number of pairs of "character" and "zhuyin" fields you need depends on the max length of your phrases. For example, if the longest phrase in your vocabulary list is 7 characters long, add 7 pairs of character/zhuyin fields in Anki.
