@@ -62,14 +62,14 @@ def get_stroke_tag(char):
     """
     return f"<img src=\"{char}-stroke.png\" />"
 
-def gen_stroke(phrase, stroke_dir, no_update_images):
+def gen_stroke(phrase, stroke_dir, force_update_images):
     """
     Downloads the stroke order PNGs
     """
     stroke_tags = ""
     for char in phrase:
         stroke_filename = f"{stroke_dir}/{char}-stroke.png"
-        if no_update_images == True and os.path.isfile(stroke_filename) == True:
+        if force_update_images == False and os.path.isfile(stroke_filename) == True:
             stroke_tags = stroke_tags + get_stroke_tag(char)
             continue
         else:

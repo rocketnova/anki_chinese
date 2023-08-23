@@ -8,10 +8,10 @@ import logging
 @click.argument('vocab_file')
 @click.option('-c', '--char-file', help='A text file containing a character list (prevents duplicate cards in Anki).')
 @click.option('--no-update-chars', is_flag=True, help="Must be used in conjuction with -c/--char-file. Will use an existing character list, but won't update it.")
-@click.option('--no-update-images', is_flag=True, help="Skip updating existing images.")
+@click.option('--force-update-images', is_flag=True, help="Force updating existing images.")
 @click.option('-t', '--tags', multiple=True, help="Tags to be applied to every entry in the CSV. Multiple tags must be double quoted.")
 @click.option('-v', '--verbose', is_flag=True, help="Increase output verbosity.")
-def main(vocab_file, char_file, no_update_chars, no_update_images, tags, verbose):
+def main(vocab_file, char_file, no_update_chars, force_update_images, tags, verbose):
     """
     Generates a CSV of Chinese vocabulary, English meaning, zhuyin, pinyin, and Taiwan stroke order for import into Anki.
 
@@ -58,7 +58,7 @@ def main(vocab_file, char_file, no_update_chars, no_update_images, tags, verbose
         row.append(get_pinyin(phrase))
 
         # Add stroke order to the row.
-        stroke_tags = gen_stroke(phrase, stroke_dir, no_update_images)
+        stroke_tags = gen_stroke(phrase, stroke_dir, force_update_images)
         row.append(stroke_tags)
 
         # Process each character in the Chinese phrase.
